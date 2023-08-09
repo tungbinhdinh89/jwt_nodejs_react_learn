@@ -7,8 +7,9 @@ import homeController from "../controller/homeController";
  * */
 const initWebRoutes = (app) => {
   router.get("/", homeController.handleHelloWord);
+  router.get("/users", homeController.handleUserPage);
+  router.post("/users/create-user", homeController.handleCreateUser);
 
-  router.get("/user", homeController.handleUserForm);
   return app.use("/", router);
 };
 
