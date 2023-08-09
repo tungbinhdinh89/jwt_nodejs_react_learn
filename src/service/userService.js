@@ -16,16 +16,10 @@ const createNewUser = async (email, username, password) => {
     database: "jwt",
   });
   let hashPass = hashUserPassword(password);
-  console.log("hashPass: ", hashPass);
-  connection.query(
+
+  const [rows, fields] = await connection.execute(
     " INSERT INTO users (email, username, password) VALUES (?, ?, ?)",
-    [email, username, hashPass],
-    function (err, results, fields) {
-      if (err) {
-        console.log(err);
-      }
-      console.log(results); // results contains rows returned by server
-    }
+    [email, username, hashPass]
   );
 };
 
@@ -36,20 +30,28 @@ const getUserList = async () => {
     database: "jwt",
     Promise: bluebird,
   });
-  let users = [];
-  //   connection.query(" Select * from users ", function (err, results, fields) {
-  //     if (err) {
-  //       console.log(err);
-  //       return users;
-  //     }
-  //     users = results;
-  //     return users;
-  //   });
+
   const [rows, fields] = await connection.execute(" Select * from users ");
+  return rows;
+};
+
+const deleteUser = async (id) => {
+  // DELETE FROM Customers WHERE CustomerName='Alfreds Futterkiste';
+  const connection = await mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    database: "jwt",
+    Promise: bluebird,
+  });
+  const [rows, fields] = await connection.execute(
+    " DELETE FROM users WHERE id=? ",
+    [id]
+  );
   return rows;
 };
 
 module.exports = {
   createNewUser,
   getUserList,
+  deleteUser,
 };
