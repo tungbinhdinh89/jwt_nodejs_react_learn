@@ -36,6 +36,31 @@ npm i --save-exact bcryptjs@2.4.3
 # Cài dặt thư viện bluebird
 npm i --save-exact bluebird@3.7.2
 
+# Cài dặt ORM sequelize
+npm i --save-exact sequelize@6.13.0 sequelize-cli@6.3.0
+
+
+# Config sequelize
+ Tạo file .sequelizerc ở thư mục root
+
+ // .sequelizerc
+
+const path = require("path");
+
+module.exports = {
+  config: path.resolve("./server/config", "config.json"),
+  "models-path": path.resolve("./server", "models"),
+  "seeders-path": path.resolve("./server", "seeders"),
+  "migrations-path": path.resolve("./server", "migrations"),
+};
+ run command: npx sequelize-cli init
+
+ https://sequelize.org/docs/v6/getting-started/
+
+ https://sequelize.org/docs/v6/other-topics/migrations/
+
+
+ npx sequelize-cli db:migrate
 
 # bootstrap 5 cdn 
 <!-- Latest compiled and minified CSS -->
