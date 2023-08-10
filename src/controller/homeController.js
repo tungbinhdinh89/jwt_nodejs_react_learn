@@ -17,7 +17,6 @@ const handleCreateUser = (req, res) => {
   let password = req.body.password;
 
   userService.createNewUser(email, username, password);
-
   return res.redirect("/users");
 };
 
