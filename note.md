@@ -62,6 +62,12 @@ module.exports = {
 
  npx sequelize-cli db:migrate
 
+ # how to make sequelize use singular table name
+ https://stackoverflow.com/questions/21114499/how-to-make-sequelize-use-singular-table-names
+
+timestamps: true,
+
+
 # bootstrap 5 cdn 
 <!-- Latest compiled and minified CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
