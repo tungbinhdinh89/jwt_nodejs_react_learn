@@ -48,23 +48,6 @@ const getUserById = async (userId) => {
 };
 
 const updateUser = async (email, username, id) => {
-  // const connection = await mysql.createConnection({
-  //   host: "localhost",
-  //   user: "root",
-  //   database: "jwt",
-  //   Promise: bluebird,
-  // });
-
-  // try {
-  //   const [rows, fields] = await connection.execute(
-  //     " UPDATE user SET email = ?, username = ? WHERE id = ? ",
-  //     [email, username, id]
-  //   );
-  //   return rows;
-  // } catch (err) {
-  //   console.log("check error : ", err);
-  // }
-
   await db.User.update(
     { email: email, username: username },
     {
