@@ -1,7 +1,8 @@
 import bcrypt from "bcryptjs";
-import mysql from "mysql2/promise";
-import bluebird from "bluebird";
+// import mysql from "mysql2/promise";
+// import bluebird from "bluebird";
 import db from "../models";
+import { raw } from "body-parser";
 
 const salt = bcrypt.genSaltSync(10);
 
@@ -25,6 +26,33 @@ const createNewUser = async (email, username, password) => {
 };
 
 const getUserList = async () => {
+  // test relationships
+  let newUser = await db.User.findOne({
+    where: {
+      id: 4,
+    },
+    attributes: ["id", "email", "username"],
+    include: { model: db.Group, attributes: ["id", "name", "description"] },
+    raw: true,
+    nest: true,
+  });
+
+  // let roles = await db.Group.findOne({
+  //   where: { id: 1 },
+  //   include: { model: db.Role },
+  //   raw: true,
+  //   nest: true,
+  // });
+
+  let roles = await db.Role.findAll({
+    include: { model: db.Group, where: { id: 1 } },
+    raw: true,
+    nest: true,
+  });
+
+  console.log("check new user: ", newUser);
+  console.log("check new Role: ", roles);
+
   let users = await db.User.findAll();
   return users;
 };
