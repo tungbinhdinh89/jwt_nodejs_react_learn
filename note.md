@@ -67,6 +67,9 @@ module.exports = {
 
 timestamps: true,
 
+# sequelize check or codition
+https://stackoverflow.com/questions/46161500/sequelize-or-not-working
+
 
 # bootstrap 5 cdn 
 <!-- Latest compiled and minified CSS -->

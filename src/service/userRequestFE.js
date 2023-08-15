@@ -1,5 +1,6 @@
 import db from "../models/index";
 import bcrypt from "bcryptjs";
+import { Op } from "sequelize";
 const salt = bcrypt.genSaltSync(10);
 
 const checkEmailExist = async (email) => {
@@ -70,6 +71,58 @@ const registerNewUser = async (rawUserData) => {
   }
 };
 
+const checkHashPassword = (userPassword, hashPassword) => {
+  return bcrypt.compareSync(userPassword, hashPassword); // true or false
+};
+
+const userLogin = async (rawUserData) => {
+  try {
+    let user = await db.User.findOne({
+      where: {
+        [Op.or]: [
+          { email: rawUserData.valueLogin },
+          { phone: rawUserData.valueLogin },
+        ],
+      },
+    });
+
+    if (user) {
+      console.log("found user data :", user.get({ plain: true }));
+      let isCorrectPassword = checkHashPassword(
+        rawUserData.password,
+        user.password
+      );
+      if (isCorrectPassword) {
+        return {
+          EM: "Login user successfully!",
+          EC: 0,
+          DT: "",
+        };
+      }
+    }
+    console.log(
+      "Input user with email/phone: ",
+      rawUserData.valueLogin,
+      "password :",
+      rawUserData.password
+    );
+    return {
+      EM: "Your email/phone number or password is incorrect!",
+      EC: 1,
+      DT: "",
+    };
+
+    // console.log("check user javascript obj: ", user.get({ plain: true })); // làm việc với data thì dùng javascript obj
+    // console.log("check user sequelize obj: ", user); // khi thao tác với sequelize, như thêm, xoá, sửa người dùnh thì làm việc với sequelize obj
+  } catch (error) {}
+  console.log("error: ", error);
+  return {
+    errorMessage: "something wrong is server...",
+    errorCode: "-2",
+  };
+};
+
 module.exports = {
   registerNewUser,
+  userLogin,
 };
