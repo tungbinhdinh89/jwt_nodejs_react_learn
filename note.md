@@ -62,6 +62,9 @@ module.exports = {
 
  npx sequelize-cli db:migrate
 
+ # running seed all
+ npx sequelize-cli db:seed:all
+
  # how to make sequelize use singular table name
  https://stackoverflow.com/questions/21114499/how-to-make-sequelize-use-singular-table-names
 

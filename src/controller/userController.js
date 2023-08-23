@@ -5,10 +5,8 @@ const getUsers = async (req, res) => {
     if (req.query.page && req.query.limit) {
       let page = +req.query.page;
       let limit = +req.query.limit;
-      console.log("check data : ", "page :", page, "limit :", limit);
 
       let data = await userApiService.getUserWithPagination(page, limit);
-      console.log("data Tung: ", data);
       return res.status(200).json({
         errorMessage: data.EM,
         errorCode: data.EC,
@@ -24,7 +22,6 @@ const getUsers = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log("error: ", error);
     return res.status(500).json({
       errorMessage: "error from server",
       errorCode: "-1",
@@ -33,10 +30,16 @@ const getUsers = async (req, res) => {
   }
 };
 
-const createUser = (req, res) => {
+const createUser = async (req, res) => {
   try {
+   // validate
+   let data =  await userApiService.createUser(req.body)
+   return res.status(200).json({
+    errorMessage: data.EM,
+    errorCode: data.EC,
+    data: data.DT,
+  })
   } catch (error) {
-    console.log("error: ", error);
     return res.status(500).json({
       errorMessage: "error from server",
       errorCode: "-1",
@@ -45,10 +48,15 @@ const createUser = (req, res) => {
   }
 };
 
-const editUser = (req, res) => {
+const editUser = async (req, res) => {
   try {
+    let data = await userApiService.updateUser();
+    return res.status(200).json({
+      errorMessage: data.EM,
+      errorCode: data.EC,
+      data: data.DT,
+    });
   } catch (error) {
-    console.log("error: ", error);
     return res.status(500).json({
       errorMessage: "error from server",
       errorCode: "-1",
@@ -57,10 +65,16 @@ const editUser = (req, res) => {
   }
 };
 
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res) => {
   try {
+    console.log("check body: ", req.body);
+    let data = await userApiService.deleteUser(req.body.id);
+    return res.status(200).json({
+      errorMessage: data.EM,
+      errorCode: data.EC,
+      data: data.DT,
+    });
   } catch (error) {
-    console.log("error: ", error);
     return res.status(500).json({
       errorMessage: "error from server",
       errorCode: "-1",

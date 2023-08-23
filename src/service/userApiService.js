@@ -25,7 +25,6 @@ const getAllUser = async () => {
       };
     }
   } catch (error) {
-    console.log("error: ", error);
     return {
       EM: "something wrong in service!",
       EC: 1,
@@ -40,6 +39,8 @@ const getUserWithPagination = async (page, limit) => {
     const { count, rows } = await db.User.findAndCountAll({
       offset: offset,
       limit: limit,
+      attributes: ["id", "email", "username", "address", "phone"],
+      include: { model: db.Group, attributes: ["name", "description"] },
     });
 
     let data = {
@@ -47,8 +48,6 @@ const getUserWithPagination = async (page, limit) => {
       totalPage: Math.ceil(count / limit),
       users: rows,
     };
-    console.log("check data: ", data);
-    console.log("check rows: ", rows, "check count: ", count);
 
     return {
       EM: "get user and pagination successfully",
@@ -56,7 +55,6 @@ const getUserWithPagination = async (page, limit) => {
       DT: data,
     };
   } catch (error) {
-    console.log("error: ", error);
     return {
       EM: "something wrong in service!",
       EC: 1,
@@ -66,16 +64,17 @@ const getUserWithPagination = async (page, limit) => {
 };
 
 const createUser = async (data) => {
-  let user = await db.User.create({
-    where: {
-      id: userId,
-    },
-  });
+
   try {
-  } catch (error) {
-    console.log("error: ", error);
+     await db.User.create(data) 
     return {
-      EM: "something wrong in service!",
+      EM: 'Create new user succefully!',
+      EC: 0,
+      DT: []
+    };
+  } catch (error) {
+    return {
+      EM: "Something wrong in service!",
       EC: 1,
       DT: [],
     };
@@ -91,11 +90,20 @@ const updateUser = async (data) => {
     if (user) {
       // update user
       user.save({});
+      return {
+        EM: "Update user success!",
+        EC: 0,
+        DT: [],
+      };
     } else {
       // not found
+      return {
+        EM: "user not exist",
+        EC: 2,
+        DT: [],
+      };
     }
   } catch (error) {
-    console.log("error: ", error);
     return {
       EM: "something wrong in service!",
       EC: 1,
@@ -105,15 +113,27 @@ const updateUser = async (data) => {
 };
 
 const deleteUser = async (userId) => {
-  await db.User.destroy({
-    where: {
-      id: userId,
-    },
-  });
-
   try {
+    let user = await db.User.findOne({
+      where: {
+        id: userId,
+      },
+    });
+    if (user) {
+      await user.destroy();
+      return {
+        EM: "Delete user successfully",
+        EC: 0,
+        DT: [],
+      };
+    } else {
+      return {
+        EM: "user not exist",
+        EC: 2,
+        DT: [],
+      };
+    }
   } catch (error) {
-    console.log("error: ", error);
     return {
       EM: "something wrong in service!",
       EC: 1,

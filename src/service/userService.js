@@ -31,18 +31,13 @@ const getUserList = async () => {
     where: {
       id: 4,
     },
-    attributes: ["id", "email", "username"],
+    attributes: ["id", "email", "username", 'group_id'],
     include: { model: db.Group, attributes: ["id", "name", "description"] },
     raw: true,
     nest: true,
   });
 
-  // let roles = await db.Group.findOne({
-  //   where: { id: 1 },
-  //   include: { model: db.Role },
-  //   raw: true,
-  //   nest: true,
-  // });
+
 
   let roles = await db.Role.findAll({
     include: { model: db.Group, where: { id: 1 } },
@@ -50,8 +45,7 @@ const getUserList = async () => {
     nest: true,
   });
 
-  console.log("check new user: ", newUser);
-  console.log("check new Role: ", roles);
+
 
   let users = await db.User.findAll();
   return users;
