@@ -1,7 +1,7 @@
 import db from "../models/index";
 import bcrypt from "bcryptjs";
-import { Op } from "sequelize";
 const salt = bcrypt.genSaltSync(10);
+import { Op } from "sequelize";
 
 const checkEmailExist = async (email) => {
   let user = await db.User.findOne({
@@ -31,7 +31,7 @@ const hashUserPassword = (userPassword) => {
 const registerNewUser = async (rawUserData) => {
   // check email, phone number are exist
   let isEmailExist = await checkEmailExist(rawUserData.email);
-  let isPhoneExist = await checkPhoneExist(rawUserData.phoneNumber);
+  let isPhoneExist = await checkPhoneExist(rawUserData.phone);
 
   if (isEmailExist === true) {
     return {
@@ -125,4 +125,7 @@ const userLogin = async (rawUserData) => {
 module.exports = {
   registerNewUser,
   userLogin,
+  checkEmailExist,
+  checkPhoneExist,
+  hashUserPassword,
 };

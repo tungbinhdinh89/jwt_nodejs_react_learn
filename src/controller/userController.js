@@ -32,13 +32,13 @@ const getUsers = async (req, res) => {
 
 const createUser = async (req, res) => {
   try {
-   // validate
-   let data =  await userApiService.createUser(req.body)
-   return res.status(200).json({
-    errorMessage: data.EM,
-    errorCode: data.EC,
-    data: data.DT,
-  })
+    // validate
+    let data = await userApiService.createUser(req.body);
+    return res.status(200).json({
+      errorMessage: data.EM,
+      errorCode: data.EC,
+      data: data.DT,
+    });
   } catch (error) {
     return res.status(500).json({
       errorMessage: "error from server",
@@ -50,7 +50,8 @@ const createUser = async (req, res) => {
 
 const editUser = async (req, res) => {
   try {
-    let data = await userApiService.updateUser();
+    let data = await userApiService.updateUser(req.body);
+    console.log("req.body: ", req.body);
     return res.status(200).json({
       errorMessage: data.EM,
       errorCode: data.EC,

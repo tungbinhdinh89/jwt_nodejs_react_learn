@@ -1,6 +1,10 @@
 import bcrypt from "bcryptjs";
 import db from "../models";
-
+import {
+  checkPhoneExist,
+  checkEmailExist,
+  hashUserPassword,
+} from "../service/userRequestFE";
 const salt = bcrypt.genSaltSync(10);
 
 const getAllUser = async () => {
@@ -39,8 +43,9 @@ const getUserWithPagination = async (page, limit) => {
     const { count, rows } = await db.User.findAndCountAll({
       offset: offset,
       limit: limit,
-      attributes: ["id", "email", "username", "address", "phone"],
-      include: { model: db.Group, attributes: ["name", "description"] },
+      attributes: ["id", "email", "username", "address", "sex", "phone"],
+      include: { model: db.Group, attributes: ["name", "description", "id"] },
+      order: [["id", "DESC"]],
     });
 
     let data = {
@@ -64,13 +69,38 @@ const getUserWithPagination = async (page, limit) => {
 };
 
 const createUser = async (data) => {
-
   try {
-     await db.User.create(data) 
+    // check email, phone number are exist
+    let isEmailExist = await checkEmailExist(data.email);
+    console.log("isEmailExist: ", isEmailExist);
+    if (isEmailExist === true) {
+      return {
+        EM: "Email is already exist!",
+        EC: 1,
+        DT: "email",
+      };
+    }
+    let isPhoneExist = await checkPhoneExist(data.phone);
+    console.log("isPhoneExist: ", isPhoneExist);
+    if (isPhoneExist === true) {
+      return {
+        EM: "Phone Number is already exist!",
+        EC: 1,
+        DT: "phone",
+      };
+    }
+    // hash user password
+    let hashPass = hashUserPassword(data.password);
+
+    // create new user
+    await db.User.create({
+      ...data,
+      password: hashPass,
+    });
     return {
-      EM: 'Create new user succefully!',
+      EM: "Create new user succefully!",
       EC: 0,
-      DT: []
+      DT: [],
     };
   } catch (error) {
     return {
@@ -83,13 +113,25 @@ const createUser = async (data) => {
 
 const updateUser = async (data) => {
   try {
+    if (!data.group_id) {
+      return {
+        EM: "error with empty group_id!",
+        EC: 1,
+        DT: "group",
+      };
+    }
     let user = await db.User.findOne({
       where: { id: data.id },
     });
 
     if (user) {
       // update user
-      user.save({});
+      user.update({
+        username: data.username,
+        address: data.address,
+        sex: data.sex,
+        group_id: data.group_id,
+      });
       return {
         EM: "Update user success!",
         EC: 0,
