@@ -14,7 +14,6 @@ const getUsers = async (req, res) => {
       });
     } else {
       let data = await userApiService.getAllUser();
-      console.log("data Tung 2: ", data);
       return res.status(200).json({
         errorMessage: data.EM,
         errorCode: data.EC,
