@@ -14,6 +14,12 @@ import bodyParser from 'body-parser'
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
 
+# install json webtoken
+npm i --save-exact jsonwebtoken@8.5.1
+
+# install cookie parser
+npm i --save-exact cookie-parser@1.4.6
+
 # setup and config mysql2 connect to db
 homecontroller.js
 
