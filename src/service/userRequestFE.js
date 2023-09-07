@@ -1,7 +1,11 @@
-import db from "../models/index";
+require("dotenv").config();
 import bcrypt from "bcryptjs";
 const salt = bcrypt.genSaltSync(10);
 import { Op } from "sequelize";
+
+import db from "../models/index";
+import { getGroupWithRoles } from "./JWTService";
+import { createJWT } from "../middleware/JWTAction";
 
 const checkEmailExist = async (email) => {
   let user = await db.User.findOne({
@@ -13,9 +17,9 @@ const checkEmailExist = async (email) => {
   return false;
 };
 
-const checkPhoneExist = async (phoneNumber) => {
+const checkPhoneExist = async (phone) => {
   let user = await db.User.findOne({
-    where: { phone: phoneNumber },
+    where: { phone: phone },
   });
   if (user) {
     return true;
@@ -54,9 +58,10 @@ const registerNewUser = async (rawUserData) => {
   try {
     await db.User.create({
       email: rawUserData.email,
-      phone: rawUserData.phoneNumber,
+      phone: rawUserData.phone,
       username: rawUserData.username,
       password: hashPass,
+      group_id: 4,
     });
 
     return {
@@ -87,25 +92,32 @@ const userLogin = async (rawUserData) => {
     });
 
     if (user) {
-      console.log("found user data :", user.get({ plain: true }));
       let isCorrectPassword = checkHashPassword(
         rawUserData.password,
         user.password
       );
       if (isCorrectPassword) {
+        //let token
+
+        // test role
+
+        let groupWithRoles = await getGroupWithRoles(user);
+
+        const payload = {
+          email: user.email,
+          groupWithRoles,
+          expiresIn: process.env.JWT_EXPIRES_IN,
+        };
+        let token = createJWT(payload);
+
         return {
           EM: "Login user successfully!",
           EC: 0,
-          DT: "",
+          DT: { access_token: token, groupWithRoles },
         };
       }
     }
-    console.log(
-      "Input user with email/phone: ",
-      rawUserData.valueLogin,
-      "password :",
-      rawUserData.password
-    );
+
     return {
       EM: "Your email/phone number or password is incorrect!",
       EC: 1,

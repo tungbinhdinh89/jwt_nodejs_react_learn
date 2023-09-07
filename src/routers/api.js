@@ -2,8 +2,12 @@ import express from "express";
 const router = express.Router();
 import apiController from "../controller/apiController";
 import userController from "../controller/userController";
-import groupController from '../controller/groupController'
+import groupController from "../controller/groupController";
 
+// const testMiddleware = (req, res, next) => {
+//   console.log("test middleware");
+//   next();
+// };
 const initApiRoutes = (app) => {
   router.get("/test-api", apiController.testApi);
   router.post("/register", apiController.handleRegister);
@@ -14,7 +18,7 @@ const initApiRoutes = (app) => {
   router.put("/user/edit", userController.editUser);
   router.delete("/user/delete", userController.deleteUser);
 
-  router.get("/group/read", groupController.getGroupList)
+  router.get("/group/read", groupController.getGroupList);
 
   return app.use("/api/v1/", router);
 };

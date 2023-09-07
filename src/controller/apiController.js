@@ -11,7 +11,7 @@ const handleRegister = async (req, res) => {
   try {
     if (
       !req.body.email ||
-      !req.body.phoneNumber ||
+      !req.body.phone ||
       !req.body.username ||
       !req.body.password
     ) {
@@ -55,13 +55,19 @@ const handleLogin = async (req, res) => {
 
     // service: login user
     let data = await loginRegisterService.userLogin(req.body);
+    // set cookie
+    res.cookie("jwt", data.DT.access_token, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 1000,
+    });
+    // property httpOnly prevent client get cookie
+
     return res.status(200).json({
       errorMessage: data.EM,
       errorCode: data.EC,
       data: data.DT,
     });
   } catch (error) {
-    // console.log("error: ", error);
     return res.status(500).json({
       errorMessage: "error from server",
       errorCode: "-1",

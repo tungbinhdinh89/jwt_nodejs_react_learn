@@ -82,6 +82,15 @@ https://stackoverflow.com/questions/46161500/sequelize-or-not-working
 # How do I calculate the offsets for pagination?
 https://stackoverflow.com/questions/27992413/how-do-i-calculate-the-offsets-for-pagination
 
+# Sequelize exclude belongs-to-many mapping object
+https://stackoverflow.com/questions/45070595/sequelize-exclude-belongs-to-many-mapping-object
+
+# Express Session Cookie Not Being Set when using React Axios POST Request
+https://stackoverflow.com/questions/63251837/express-session-cookie-not-being-set-when-using-react-axios-post-request
+
+# How to get all cookie from browser
+https://stackoverflow.com/questions/252665/i-need-to-get-all-the-cookies-from-the-browser
+
 # bootstrap 5 cdn 
 <!-- Latest compiled and minified CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
