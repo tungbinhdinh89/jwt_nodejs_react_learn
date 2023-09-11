@@ -5,7 +5,6 @@ const getGroups = async () => {
       // attributes: ['id','name', 'description'],
       // order: [['name', 'DESC']]
     });
-    console.log("data: ", data);
 
     if (data) {
       return {

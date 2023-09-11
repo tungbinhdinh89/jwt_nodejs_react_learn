@@ -91,6 +91,9 @@ https://stackoverflow.com/questions/63251837/express-session-cookie-not-being-se
 # How to get all cookie from browser
 https://stackoverflow.com/questions/252665/i-need-to-get-all-the-cookies-from-the-browser
 
+# Use specific middleware in Express for all paths except a specific one
+https://stackoverflow.com/questions/12921658/use-specific-middleware-in-express-for-all-paths-except-a-specific-one
+
 # bootstrap 5 cdn 
 <!-- Latest compiled and minified CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">

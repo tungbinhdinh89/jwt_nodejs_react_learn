@@ -5,7 +5,6 @@ const getUsers = async (req, res) => {
     if (req.query.page && req.query.limit) {
       let page = +req.query.page;
       let limit = +req.query.limit;
-
       let data = await userApiService.getUserWithPagination(page, limit);
       return res.status(200).json({
         errorMessage: data.EM,
@@ -50,7 +49,7 @@ const createUser = async (req, res) => {
 const editUser = async (req, res) => {
   try {
     let data = await userApiService.updateUser(req.body);
-    console.log("req.body: ", req.body);
+
     return res.status(200).json({
       errorMessage: data.EM,
       errorCode: data.EC,
@@ -67,7 +66,6 @@ const editUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    console.log("check body: ", req.body);
     let data = await userApiService.deleteUser(req.body.id);
     return res.status(200).json({
       errorMessage: data.EM,

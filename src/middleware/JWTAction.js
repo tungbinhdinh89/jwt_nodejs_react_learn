@@ -26,7 +26,65 @@ const verifyToken = (token) => {
   }
 };
 
+const checkUserJWT = (req, res, next) => {
+  let cookies = req.cookies;
+  if (cookies && cookies.jwt) {
+    let token = cookies.jwt;
+    let decoded = verifyToken(token);
+    if (decoded) {
+      req.user = decoded;
+      next();
+    } else {
+      return res.status(401).json({
+        errorMessage: "Not authenticated the user",
+        errorCode: -1,
+        data: "",
+      });
+    }
+  } else {
+    return res.status(401).json({
+      errorMessage: "Not authenticated the user",
+      errorCode: -1,
+      data: "",
+    });
+  }
+};
+
+const checkUserPermission = (req, res, next) => {
+  if (req.user) {
+    let email = req.user.email;
+    let roles = req.user.groupWithRoles.Roles;
+    let currentUrl = req.path;
+    if (!roles && roles.length === 0) {
+      return res.status(403).json({
+        errorMessage: `You don't have permission to access this resource...`,
+        errorCode: -1,
+        data: "",
+      });
+    }
+    let canAccess = roles.some((item) => item.url === currentUrl);
+
+    if (canAccess) {
+      next();
+    } else {
+      return res.status(403).json({
+        errorMessage: `You don't have permission to access this resource...`,
+        errorCode: -1,
+        data: "",
+      });
+    }
+  } else {
+    return res.status(401).json({
+      errorMessage: "Not authenticated the user",
+      errorCode: -1,
+      data: "",
+    });
+  }
+};
+
 module.exports = {
   createJWT,
   verifyToken,
+  checkUserJWT,
+  checkUserPermission,
 };

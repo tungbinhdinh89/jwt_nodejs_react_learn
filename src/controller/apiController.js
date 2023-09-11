@@ -75,7 +75,5 @@ const handleLogin = async (req, res) => {
     });
   }
   // ;
-
-  // console.log("check login :", req.body);
 };
 module.exports = { testApi, handleRegister, handleLogin };

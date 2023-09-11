@@ -72,7 +72,7 @@ const createUser = async (data) => {
   try {
     // check email, phone number are exist
     let isEmailExist = await checkEmailExist(data.email);
-    console.log("isEmailExist: ", isEmailExist);
+
     if (isEmailExist === true) {
       return {
         EM: "Email is already exist!",
@@ -81,7 +81,7 @@ const createUser = async (data) => {
       };
     }
     let isPhoneExist = await checkPhoneExist(data.phone);
-    console.log("isPhoneExist: ", isPhoneExist);
+
     if (isPhoneExist === true) {
       return {
         EM: "Phone Number is already exist!",
