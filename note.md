@@ -97,6 +97,15 @@ https://stackoverflow.com/questions/12921658/use-specific-middleware-in-express-
 # Chaining of middleware in Express
 https://stackoverflow.com/questions/58279138/chaining-of-middleware-in-express
 
+# Preflight request doesn't pass access control check: It does not have HTTP ok status problem and i don't know why, i imported everything right
+https://stackoverflow.com/questions/67860273/preflight-request-doesnt-pass-access-control-check-it-does-not-have-http-ok-st
+
+# Response to preflight request doesn't pass access control check - No 'Access-Control-Allow-Origin' header
+https://stackoverflow.com/questions/35588699/response-to-preflight-request-doesnt-pass-access-control-check-no-access-con
+
+# How to extract token string from Bearer token?
+https://stackoverflow.com/questions/50284841/how-to-extract-token-string-from-bearer-token
+
 # bootstrap 5 cdn 
 <!-- Latest compiled and minified CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
