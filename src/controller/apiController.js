@@ -1,12 +1,5 @@
 import loginRegisterService from "../service/userRequestFE";
 
-const testApi = (req, res) => {
-  return res.status(200).json({
-    message: "ok",
-    data: "test",
-  });
-};
-
 const handleRegister = async (req, res) => {
   try {
     if (
@@ -56,11 +49,13 @@ const handleLogin = async (req, res) => {
     // service: login user
     let data = await loginRegisterService.userLogin(req.body);
     // set cookie
-    res.cookie("jwt", data.DT.access_token, {
-      httpOnly: true,
-      maxAge: 60 * 60 * 1000,
-    });
-    // property httpOnly prevent client get cookie
+    if (data && data.DT && data.DT.access_token) {
+      res.cookie("jwt", data.DT.access_token, {
+        httpOnly: true,
+        maxAge: 60 * 60 * 1000,
+      });
+      // property httpOnly prevent client get cookie
+    }
 
     return res.status(200).json({
       errorMessage: data.EM,
@@ -76,4 +71,4 @@ const handleLogin = async (req, res) => {
   }
   // ;
 };
-module.exports = { testApi, handleRegister, handleLogin };
+module.exports = { handleRegister, handleLogin };

@@ -81,9 +81,20 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const getUserAccount = async (req, res) => {
+  return res.status(200).json({
+    errorMessage: "oke",
+    errorCode: 0,
+    data: {
+      access_token: req.token,
+      user: req.user,
+    },
+  });
+};
 module.exports = {
   getUsers,
   createUser,
   editUser,
   deleteUser,
+  getUserAccount,
 };
